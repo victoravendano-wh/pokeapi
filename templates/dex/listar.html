@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+  {% if pokemones %}
+    <div class="card-container container mt-5 row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for pokemon in pokemones %}
+        <div class="col">
+          <article class="card h-100 text-center">
+            <header class="card-header bg-transparent border-0 pt-3">
+              <h5 class="card-title mb-0">{{pokemon.name|capfirst}}</h5>
+            </header>
+
+            <main class="card-body d-flex align-items-center justify-content-center">
+              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemon.id}}.png" alt="{{pokemon.name}}" class="img-fluid" style="max-height: 150px;" />
+            </main>
+
+            <footer class="card-footer bg-transparent border-0 pb-3">
+              <a class="btn btn-primary w-100">Ver pokemon</a>
+            </footer>
+          </article>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
