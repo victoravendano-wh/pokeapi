@@ -1,25 +1,69 @@
 {% extends 'base/base.html' %}
 
+{% block titulo %}
+  Listado de pokemones
+{% endblock %}
+{% block tituloNav %}
+  Listado de pokemones 
+  
+  {% if cantidad %}1 - {{cantidad}}{% endif %}
+
+  
+{% endblock %}
+
 {% block main %}
   {% if pokemones %}
+    <div class="buton-container container">
+      <a href="javascript:history.back()" class="btn btn-danger  mt-3">Atras</a>
+    </div>
+
     <div class="card-container container mt-5 row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for pokemon in pokemones %}
         <div class="col">
           <article class="card h-100 text-center">
             <header class="card-header bg-transparent border-0 pt-3">
-              <h5 class="card-title mb-0">{{pokemon.name|capfirst}}</h5>
+              <h5 class="card-title mb-0">{{ pokemon.name|capfirst }}</h5>
             </header>
 
             <main class="card-body d-flex align-items-center justify-content-center">
-              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemon.id}}.png" alt="{{pokemon.name}}" class="img-fluid" style="max-height: 150px;" />
+              <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="{{ pokemon.name }}" class="img-fluid" style="max-height: 150px;" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png';" />
             </main>
 
             <footer class="card-footer bg-transparent border-0 pb-3">
-              <a class="btn btn-primary w-100">Ver pokemon</a>
+              <a href="{% url 'pokedex:detalles' pokemon.id %}" class="btn btn-primary w-100">Ver pokemon</a>
             </footer>
           </article>
         </div>
       {% endfor %}
     </div>
+  {% else %}
+    <div class="form-container container mt-5">
+      <h2>Selecciona la cantidad de pokemones que quieres listar</h2>
+      <form method="POST" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="{{ form.cantidad.id_for_label }}" class="form-label">Cantidad de Pokémon</label>
+
+          <input type="number" name="{{ form.cantidad.html_name }}" id="{{ form.cantidad.id_for_label }}" max="1024" min="1" value="{{ form.cantidad.value|default_if_none:'' }}" class="form-control {% if form.cantidad.errors %}is-invalid{% endif %}" required />
+
+          {% if form.cantidad.errors %}
+            <div class="invalid-feedback">
+              {% for error in form.cantidad.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-5">Consultar</button>
+      </form>
+    </div>
   {% endif %}
+{% endblock %}
+
+{% block footer %}
+  <div class="buton-container container">
+    <a href="javascript:history.back()" class="btn btn-danger mb-3 mt-5">Atras</a>
+  </div>
 {% endblock %}

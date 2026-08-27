@@ -1,7 +1,11 @@
 {% extends "base/base.html" %}
+{% load staticfiles %}
 
 {% block main %}
+<h3 class="mt-5">🔥🔥Bienvenido a la wiki de pokemones🔥🔥</h3>
+<h5>Con acceso a una gran variedad de pokemones</h5>
+<img class="mt-5" src="{% static 'favicon/favicon.ico' %}" alt="">
 
-
+<a href="{%url "pokedex:consultar_list"%}" class="btn btn-outline-warning mt-5">🔥Listar pokemones🔥</a>
 
 {% endblock main %}

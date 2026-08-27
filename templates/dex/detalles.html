@@ -1,1 +1,63 @@
-{% extends "base/base.html" %}
+{% extends 'base/base.html' %}
+
+{% block titulo %}Vista detallada{% endblock titulo %}
+{% block tituloNav %}Detalles del pokemon{% endblock tituloNav %}
+
+
+{% block main %}
+  <div class=".container-xxl" style="max-width: 900px;">
+    <div class="buton-container">
+      <a href="javascript:history.back()" class="btn btn-primary m-3">Atras</a>
+    </div>
+
+    <article>
+      <header>
+        <div class="d-flex justify-content-center">
+          <h4>{{ pokemon.nombre|capfirst }}</h4>
+        </div>
+
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.id }}.png" alt="{{ pokemon.name }}" class="img-fluid" style="max-height: 250px;" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ pokemon.id }}.png';" />
+      </header>
+
+      <main class="card-body d-flex align-items-center justify-content-center flex-column">
+        <h5 class="d-block">Detalles:</h5>
+        <div class="detail-container container">
+          <div>
+            <strong class="d-block">Peso</strong>
+            <p>{{ pokemon.peso }} kilos</p>
+          </div>
+          <div>
+            <strong class="d-block">Altura</strong>
+            <p>{{ pokemon.altura }} metros</p>
+          </div>
+
+          <strong class="d-block">Habilidades</strong>
+
+          <div class="d-flex">
+            {% for habilidad in pokemon.habilidades %}
+              <p class="me-3">{{ habilidad|capfirst }}</p>
+            {% endfor %}
+          </div>
+
+          <div>
+            <strong class="d-block">Tipos</strong>
+            {% for tipo in pokemon.tipos %}
+              <a class="me-3 text-decoration-none" href="{% url 'pokedex:tipos' tipo.id %}">{{ tipo.name|capfirst }}</a>
+            {% endfor %}
+          </div>
+          <strong class="d-block mt-2">Movimientos</strong>
+          <div class="d-flex flex-wrap bg-dark">
+            {% for movimiento in pokemon.movimientos %}
+              <p class="me-3">{{ movimiento|capfirst }}</p>
+            {% endfor %}
+          </div>
+          <div class="buton-container">
+            <a href="javascript:history.back()" class="btn btn-primary mb-">Atras</a>
+          </div>
+        </div>
+      </main>
+
+      <footer></footer>
+    </article>
+  </div>
+{% endblock %}
